@@ -1,0 +1,47 @@
+Spawn a console process with colorized standard output handles.
+
+cr [<app>[ <app_args>]]
+
+Colorizer (cr) intercepts the standard I/O streams of a child process and
+allows them to be colorized. How the streams are colorized is determined by
+the CR_OPTS environment variable. The options given with the cr command belong
+to the child process. In order to control the colorization of the child
+processes output streams, you must first set the CR_OPTS environment variable
+as in:
+
+    CMD$>set CR_OPTS=<cr_options> 
+    
+where <cr_options> represents one or more of the following options:
+    
+    -e dec_attr | $hex_attr
+        Sets the console attribute for the child's standard error stream
+        (stderr).
+        
+    -l 
+        When set, the background of the entire line being output is set to the
+        currently configured backgroud attribute. When this option is not used
+        only the characters written have these background attribute set.
+
+    -o dec_attr | $hex_attr
+        Sets the console attribute for the child's standard output stream
+        (stdout).
+        
+    -s 
+        Supress trailing newlines. When '-l' is in effect, prevents the 
+        background attribute being applied to trailing new lines in an output
+        block.
+
+The value given with the -e and -s options are the console buffer attributes
+which are set just prior to the stream being sent to the console. This
+attribute is currently limited to a value of 255($FF) where the lower nibble
+(4 bits) represent a foreground color and the upper nibble represent the
+background color. Colorizer currently supports the following nibble values:
+
+    0 ($0) - Black          8 ($8) - Gray
+    1 ($1) - Navy           9 ($9) - Blue
+    2 ($2) - Green          10($A) - Lime
+    3 ($3) - Teal           11($B) - Aqua
+    4 ($4) - Maroon         12($C) - Red
+    5 ($5) - Purple         13($D) - Fuchsia
+    6 ($6) - Olive          14($E) - Yellow
+    7 ($7) - Silver         15($F) - White
